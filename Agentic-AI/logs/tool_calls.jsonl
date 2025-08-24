@@ -1,0 +1,49 @@
+TOOL_REGISTRY.update({
+    "switch_tab": switch_tab_tool,
+    "switch_tab_back": switch_tab_back_tool,
+})
+{"ts": 1755989736.0836892, "user": "ca u take a screen shot", "cmd": {"name": "take_screenshot", "args": {}}, "result": {"ok": true, "path": "C:\\voice-agent-final-v8\\screenshots\\screenshot_20250824_042535.png"}}
+{"ts": 1755991445.8516755, "user": "can u open chrome", "cmd": {"name": "open_chrome", "args": {}}, "result": {"ok": true, "action": "opened_chrome", "path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"}}
+{"ts": 1755991461.3282595, "user": "can u take a screen shot", "cmd": {"name": "take_screenshot", "args": {}}, "result": {"ok": true, "path": "C:\\voice-agent-final-v8\\screenshots\\screenshot_20250824_045421.png"}}
+{"ts": 1755991472.8619, "user": "can u switch tab", "cmd": {"name": "switch_tab", "args": {}}, "result": {"ok": true, "action": "switched_tab_next"}}
+{"ts": 1755991509.7782116, "user": "what all commands can u perform", "cmd": {"name": "take_screenshot", "args": {}}, "result": {"ok": true, "path": "C:\\voice-agent-final-v8\\screenshots\\screenshot_20250824_045509.png"}}
+{"ts": 1755991683.057061, "user": "good enough", "cmd": {"name": "play_pause", "args": {}}, "result": {"ok": true, "action": "media_play_pause"}}
+{"ts": 1755992154.219153, "user": "tell mw what all comands can u perform", "cmd": {"name": "play_pause", "args": {}}, "result": {"ok": true, "action": "media_play_pause", "method": "media_key"}}
+{"ts": 1755992247.389313, "user": "can u switch tabs in my crome", "cmd": {"name": "open_chrome", "args": {}}, "result": {"ok": true, "action": "opened_chrome", "path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"}}
+{"ts": 1755993825.2628183, "user": "open notepad", "cmd": {"name": "open_notepad", "args": {}}, "result": {"ok": true, "action": "opened_notepad"}}
+{"ts": 1755993910.535247, "user": "open notepad", "cmd": {"name": "open_notepad", "args": {}}, "result": {"ok": true, "action": "opened_notepad"}}
+{"ts": 1755994021.714538, "user": "what can u do", "cmd": {"name": "search", "args": {}}, "result": {"ok": true, "action": "opened_search"}}
+{"ts": 1755994111.7178319, "user": "reduce volume", "cmd": {"name": "zoom_out", "args": {}}, "result": {"ok": true, "action": "zoomed_out"}}
+{"ts": 1755994545.7112114, "user": "hey can write me a love letter", "cmd": {"name": "find", "args": {}}, "result": {"ok": true, "action": "opened_find_dialog"}}
+{"ts": 1755994596.1780593, "user": "write it to my lover srujan", "cmd": {"name": "find", "args": {}}, "result": {"ok": true, "action": "opened_find_dialog"}}
+{"ts": 1755994810.682295, "user": "take a screen shot", "cmd": {"name": "cut", "args": {}}, "result": {"ok": true, "action": "cut"}}
+{"ts": 1755994916.4817975, "user": "screenshot can u take", "cmd": {"name": "take_screenshot", "args": {}}, "result": {"ok": true, "path": "C:\\voice-agent-final-v8\\screenshots\\screenshot_20250824_055156.png"}}
+{"ts": 1755994937.3451328, "user": "open chrome", "cmd": {"name": "open_chrome", "args": {}}, "result": {"ok": true, "action": "opened_chrome", "path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"}}
+{"ts": 1755994957.5814235, "user": "search srujan pics", "cmd": {"name": "find", "args": {}}, "result": {"ok": true, "action": "opened_find_dialog"}}
+{"ts": 1755995082.4148526, "user": "what is the time now", "cmd": {"name": "find", "args": {}}, "result": {"ok": true, "action": "opened_find_dialog"}}
+{"ts": 1755997476.1463006, "user": "hey", "cmd": {"name": "play_pause", "args": {}}, "result": {"ok": true, "action": "media_play_pause", "method": "media_key"}}
+{"ts": 1755997502.0142014, "user": "open sportify", "cmd": {"name": "open_any_app", "args": {"app": "i am unable to fulfill this request. i am a language model and do not have the capability to s or websites."}}, "result": {"ok": true, "action": "opened_app", "app": "i am unable to fulfill this request. i am a language model and do not have the capability to s or websites.", "method": "shell"}}
+{"ts": 1756002840.8961043, "user": "test", "cmd": {"name": "take_screenshot", "args": {}}, "result": {"ok": true, "path": "C:\\voice-agent-final-v13\\screenshots\\screenshot_20250824_080400.png"}}
+{"ts": 1756002969.2864182, "user": "can you take a screenshot", "cmd": {"name": "take_screenshot", "args": {}}, "result": {"ok": true, "path": "C:\\voice-agent-final-v13\\screenshots\\screenshot_20250824_080609.png"}}
+{"ts": 1756002995.6399038, "user": "can you open browser", "cmd": {"name": "cut", "args": {}}, "result": {"ok": true, "action": "cut"}}
+{"ts": 1756003217.3561034, "user": "can you open notepad", "cmd": {"name": "open_notepad", "args": {}}, "result": {"ok": true, "action": "opened_notepad"}}
+{"ts": 1756003621.627824, "user": "i am a human", "cmd": {"name": "open_notepad", "args": {}}, "result": {"ok": true, "action": "opened_notepad"}}
+{"ts": 1756003699.715897, "user": "can you take a screenshot", "cmd": {"name": "take_screenshot", "args": {}}, "result": {"ok": true, "path": "C:\\voice-agent-final-v13\\screenshots\\screenshot_20250824_081819.png"}}
+{"ts": 1756003800.116452, "user": "can you open", "cmd": {"name": "take_screenshot", "args": {}}, "result": {"ok": true, "path": "C:\\voice-agent-final-v13\\screenshots\\screenshot_20250824_081959.png"}}
+{"ts": 1756004463.658391, "user": "hey jarvis can u take a screenshot", "cmd": {"name": "take_screenshot", "args": {}}, "result": {"ok": true, "path": "C:\\voice-agent-final-v13\\screenshots\\screenshot_20250824_083103.png"}}
+{"ts": 1756004571.0681524, "user": "can you take a", "cmd": {"name": "take_screenshot", "args": {}}, "result": {"ok": true, "path": "C:\\voice-agent-final-v13\\screenshots\\screenshot_20250824_083250.png"}}
+{"ts": 1756004597.294276, "user": "can you open notepad", "cmd": {"name": "open_notepad", "args": {}}, "result": {"ok": true, "action": "opened_notepad"}}
+{"ts": 1756004609.6969388, "user": "can you open chrome", "cmd": {"name": "cut", "args": {}}, "result": {"ok": true, "action": "cut"}}
+{"ts": 1756004629.9582767, "user": "can you open", "cmd": {"name": "open_calculator", "args": {}}, "result": {"ok": true, "action": "opened_calculator"}}
+{"ts": 1756004647.7342498, "user": "can you open", "cmd": {"name": "open_calculator", "args": {}}, "result": {"ok": true, "action": "opened_calculator"}}
+{"ts": 1756004664.1483417, "user": "can you open the calculator", "cmd": {"name": "open_calculator", "args": {}}, "result": {"ok": true, "action": "opened_calculator"}}
+{"ts": 1756004679.1769485, "user": "open", "cmd": {"name": "open_calculator", "args": {}}, "result": {"ok": true, "action": "opened_calculator"}}
+{"ts": 1756004695.1219757, "user": "open chrome", "cmd": {"name": "open_chrome", "args": {}}, "result": {"ok": true, "action": "opened_chrome", "path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"}}
+{"ts": 1756004790.2360795, "user": "open calculator", "cmd": {"name": "open_calculator", "args": {}}, "result": {"ok": true, "action": "opened_calculator"}}
+{"ts": 1756004871.23304, "user": "open chrome", "cmd": {"name": "play_pause", "args": {}}, "result": {"ok": true, "action": "media_play_pause", "method": "media_key"}}
+{"ts": 1756005815.4986632, "user": "can you take a", "cmd": {"name": "take_screenshot", "args": {}}, "result": {"ok": true, "path": "C:\\HackAdemia\\Paraso\\Agentic-AI\\screenshots\\screenshot_20250824_085335.png"}}
+{"ts": 1756005824.2072473, "user": "can you take a screenshot", "cmd": {"name": "take_screenshot", "args": {}}, "result": {"ok": true, "path": "C:\\HackAdemia\\Paraso\\Agentic-AI\\screenshots\\screenshot_20250824_085344.png"}}
+{"ts": 1756006947.2607439, "user": "take a screenshot", "cmd": {"name": "take_screenshot", "args": {}}, "result": {"ok": true, "path": "C:\\HackAdemia\\Paraso\\Agentic-AI\\screenshots\\screenshot_20250824_091227.png"}}
+{"ts": 1756007440.2478404, "user": "take screenshot", "cmd": {"name": "take_screenshot", "args": {}}, "result": {"ok": true, "path": "C:\\HackAdemia\\Paraso\\Agentic-AI\\screenshots\\screenshot_20250824_092040.png"}}
+{"ts": 1756007577.843936, "user": "can you open", "cmd": {"name": "open_chrome", "args": {}}, "result": {"ok": true, "action": "opened_chrome", "path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"}}
+{"ts": 1756007616.3171647, "user": "can you open", "cmd": {"name": "open_chrome", "args": {}}, "result": {"ok": true, "action": "opened_chrome", "path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"}}

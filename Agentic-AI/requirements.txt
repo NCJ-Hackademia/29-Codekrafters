@@ -1,0 +1,11 @@
+requests
+colorama
+pyautogui
+mss
+pywin32
+psutil
+pycaw
+comtypes
+SpeechRecognition
+pyttsx3
+PyAudio

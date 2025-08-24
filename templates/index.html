@@ -1178,15 +1178,20 @@
                 <button id="mouse-btn" class="control-button">
                     <i class="fas fa-mouse-pointer"></i> Start Mouse Controller
                 </button>
-                <button id="voice-command-btn" class="control-button">
-                    <i class="fas fa-microphone"></i> Start Voice Commands
-                </button>
-                <button id="voice-typing-btn" class="control-button">
-                    <i class="fas fa-keyboard"></i> Start Voice Typing
+
+                <button id="agentic-ai" class="control-button">
+                    <i class="fas fa-keyboard"></i> Call Agent (Opens Console)
                 </button>
                 <button id="stop-all-btn" class="control-button danger">
                     <i class="fas fa-stop"></i> Stop All Processes
                 </button>
+            </div>
+            <div style="margin-top: 1rem; padding: 1rem; background: rgba(0, 0, 0, 0.2); border-radius: 8px; border-left: 3px solid var(--primary-color);">
+                <p style="margin: 0; color: var(--text-color); font-size: 0.9rem;">
+                    <i class="fas fa-info-circle"></i> <strong>Call Agent Instructions:</strong> Runs agent_cmds.py in a new console window. 
+                    <strong>Look for the new console window!</strong> Say "hey jarvis" to activate voice commands, 
+                    then give instructions like "take a screenshot" or "open chrome". The console stays open for interaction.
+                </p>
             </div>
         </div>
 
@@ -1582,7 +1587,7 @@
         </div>
 
         <footer>
-            <p>© 2024 Paraso - Professional Gesture & Voice Control System</p>
+            <p>© 2025 Paraso - Professional Gesture & Voice Control System</p>
             <p>Developed by CODEKRAFTERS</p>
             <div class="footer-links">
                 <a href="#" class="footer-link"><i class="fas fa-code"></i> GitHub</a>
@@ -2026,65 +2031,37 @@
             }
         }
         
-        async function startVoiceCommand() {
+        async function openAgent() {
             // Visual feedback that button was clicked
-            const button = document.getElementById('voice-command-btn');
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Starting...';
+            const button = document.getElementById('agentic-ai');
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Opening...';
             button.disabled = true;
-            showStatus("Starting voice command mode...");
+            showStatus("Opening agent script...");
             
             try {
-                const response = await fetch('/start_voice_command');
+                const response = await fetch('/open_agent');
                 const data = await response.json();
                 
                 if (data.status === 'success' && data.pid) {
-                    voiceCommandPid = data.pid;
-                    button.innerHTML = '<i class="fas fa-microphone"></i> Voice Commands Active';
+                    agentPid = data.pid;
+                    button.innerHTML = '<i class="fas fa-keyboard"></i> Agent Active';
                     button.classList.add('active');
                     button.disabled = false;
-                    showStatus("Voice command mode active. Speak commands to control your computer.");
+                    showStatus("Agent script opened in new console window. Look for the new console window!");
                 } else {
-                    button.innerHTML = '<i class="fas fa-microphone"></i> Start Voice Commands';
+                    button.innerHTML = '<i class="fas fa-keyboard"></i> Call Agent';
                     button.disabled = false;
                     showStatus(data.message, true);
                 }
             } catch (error) {
-                button.innerHTML = '<i class="fas fa-microphone"></i> Start Voice Commands';
+                button.innerHTML = '<i class="fas fa-keyboard"></i> Call Agent';
                 button.disabled = false;
-                console.error('Error starting voice command:', error);
-                showStatus("Error starting voice command. See console for details.", true);
+                console.error('Error opening agent script:', error);
+                showStatus("Error opening agent script. See console for details.", true);
             }
         }
         
-        async function startVoiceTyping() {
-            // Visual feedback that button was clicked
-            const button = document.getElementById('voice-typing-btn');
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Starting...';
-            button.disabled = true;
-            showStatus("Starting voice typing...");
-            
-            try {
-                const response = await fetch('/start_voice_typing');
-                const data = await response.json();
-                
-                if (data.status === 'success' && data.pid) {
-                    voiceTypingPid = data.pid;
-                    button.innerHTML = '<i class="fas fa-microphone"></i> Voice Typing Active';
-                    button.classList.add('active');
-                    document.getElementById('stop-voice-typing-btn').disabled = false;
-                    showStatus("Voice typing started. Speak to enter text.");
-                } else {
-                    button.innerHTML = '<i class="fas fa-microphone"></i> Start Voice Typing';
-                    button.disabled = false;
-                    showStatus(data.message, true);
-                }
-            } catch (error) {
-                button.innerHTML = '<i class="fas fa-microphone"></i> Start Voice Typing';
-                button.disabled = false;
-                console.error('Error starting voice typing:', error);
-                showStatus("Error starting voice typing. See console for details.", true);
-            }
-        }
+
         
         function initializeGestureButtons() {
             // Find all train buttons in keyboard gestures section
@@ -2110,63 +2087,22 @@
             });
         }
         
-        async function loadVoiceCommands() {
-            try {
-                const response = await fetch('/get_voice_commands');
-                const data = await response.json();
-                
-                if (data.status === 'success') {
-                    const voiceCommandsContainer = document.getElementById('voice-commands-container');
-                    voiceCommandsContainer.innerHTML = '';
-                    
-                    for (const [command, variants] of Object.entries(data.commands)) {
-                        const commandItem = document.createElement('div');
-                        commandItem.className = 'command-item';
-                        
-                        commandItem.innerHTML = `
-                            <span class="command-name">${command}</span>
-                            <span class="command-desc">Variants: ${variants.join(', ')}</span>
-                            <div class="command-actions">
-                                <button class="command-button" onclick="editVoiceCommand('${command}')"><i class="fas fa-edit"></i></button>
-                            </div>
-                        `;
-                        
-                        voiceCommandsContainer.appendChild(commandItem);
-                    }
-                } else {
-                    console.error('Error loading voice commands:', data.message);
-                    document.getElementById('voice-commands-container').innerHTML = 
-                        `<div class="error">Error loading voice commands: ${data.message}</div>`;
-                }
-            } catch (error) {
-                console.error('Error loading voice commands:', error);
-                document.getElementById('voice-commands-container').innerHTML = 
-                    '<div class="error">Error loading voice commands. Check console for details.</div>';
-            }
-        }
-        
-        function editVoiceCommand(command) {
-            // Implementation for editing voice commands can be added here
-            alert('Edit voice command functionality will be implemented in the future.');
-        }
+
         
         // Global variables for process IDs
         let predictionPid = null;
         let mouseControllerPid = null;
-        let voiceCommandPid = null;
-        let voiceTypingPid = null;
+        let agentPid = null;
         let airControllerPid = null;
         
-        // Load gestures and voice commands when the page loads
+        // Load gestures when the page loads
         document.addEventListener('DOMContentLoaded', function() {
             loadGestures();
-            loadVoiceCommands();
             
             // Add event listeners for buttons
             document.getElementById('prediction-btn').addEventListener('click', startPrediction);
             document.getElementById('mouse-btn').addEventListener('click', startMouseController);
-            document.getElementById('voice-command-btn').addEventListener('click', startVoiceCommand);
-            document.getElementById('voice-typing-btn').addEventListener('click', startVoiceTyping);
+            document.getElementById('agentic-ai').addEventListener('click', openAgent);
             document.getElementById('stop-all-btn').addEventListener('click', stopAllProcesses);
         });
 
@@ -2195,13 +2131,9 @@
                         pid = mouseControllerPid;
                         mouseControllerPid = null;
                         break;
-                    case 'voice_command':
-                        pid = voiceCommandPid;
-                        voiceCommandPid = null;
-                        break;
-                    case 'voice_typing':
-                        pid = voiceTypingPid;
-                        voiceTypingPid = null;
+                    case 'agent':
+                        pid = agentPid;
+                        agentPid = null;
                         break;
                     case 'air_controller':
                         pid = airControllerPid;
@@ -2264,16 +2196,14 @@
                 // Stop all processes
                 if (predictionPid) await stopProcess('prediction');
                 if (mouseControllerPid) await stopProcess('mouse');
+                if (agentPid) await stopProcess('agent');
                 if (airControllerPid) await stopProcess('air_controller');
-                if (voiceCommandPid) await stopProcess('voice_command');
-                if (voiceTypingPid) await stopProcess('voice_typing');
                 
                 // Reset process IDs as a safety measure
                 predictionPid = null;
                 mouseControllerPid = null;
+                agentPid = null;
                 airControllerPid = null;
-                voiceCommandPid = null;
-                voiceTypingPid = null;
                 
                 // Disable all stop buttons
                 const stopButtons = document.querySelectorAll('.stop-button');

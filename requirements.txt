@@ -1,0 +1,21 @@
+flask>=2.0.1
+flask-socketio>=5.1.1
+opencv-python>=4.8.0
+opencv-contrib-python>=4.8.0  # Additional OpenCV features
+mediapipe>=0.10.0
+numpy>=1.24.0
+scikit-learn>=1.3.0
+joblib>=1.3.0
+pyautogui>=0.9.54
+python-engineio>=4.2.1
+python-socketio>=5.4.0
+autopy>=4.0.0
+pygame>=2.5.0  # For VR game interactions
+pynput>=1.7.6  # For advanced keyboard/mouse control
+psutil>=5.9.0  # For process management
+
+# Voice recognition and control dependencies
+vosk>=0.3.45  # Speech recognition
+sounddevice>=0.4.6  # Audio capture
+pyttsx3>=2.90  # Text-to-speech
+keyboard>=0.13.5  # Keyboard simulation

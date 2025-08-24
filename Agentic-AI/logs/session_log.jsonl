@@ -1,0 +1,24 @@
+{"user": "Hi", "model_output": "[Thinking...]\nOkay, I understand. I’m ready for your request.\n", "command": null, "result": null}\n{"user": "There ought needs to be a screenshot taken in the might screen", "model_output": "- The final user-facing reply.\n- Take a screenshot.\n", "command": null, "result": null}\n{"user": "please take a screenshot of my screen", "model_output": "[Thinking...]\nOkay, I will take a screenshot. Please wait a moment.\n\n<<COMMAND>>\n{\"name\":\"take_screenshot\",\"args\":{}}\n<<END_COMMAND>>", "command": null, "result": null}\n{"phase": "model_stream", "user": "please take a screenshot of my screen", "output": "<<COMMAND>>\ntake_screenshot\n"}
+{"phase": "final_reply", "final": "Okay.\n", "tools": [{"tool": "take_screenshot", "result": {"ok": true, "path": "C:\\voice-agent-final-v6\\screenshots\\screenshot_20250824_032356.png"}}]}
+{"phase": "model_stream", "user": "Hi", "output": "Hi there!"}
+{"phase": "assistant_reply", "reply": "Hi there!"}
+{"phase": "model_stream", "user": "please take a screenshot of my screen my friend", "output": "<<COMMAND>>\n{\"name\": \"take_screenshot\", \"args\": {}}"}
+{"phase": "final_reply", "final": "Okay.\n", "tools": [{"tool": "take_screenshot", "result": {"ok": true, "path": "C:\\voice-agent-final-v6\\screenshots\\screenshot_20250824_032418.png"}}]}
+{"phase": "model_stream", "user": "write a poem", "output": "Okay, here’s a short poem for you:\n\nThe rain falls soft, a silver hue,\nUpon the rooftops, fresh and new.\nA gentle breeze, a whispered sigh,\nAs clouds drift by, across the sky."}
+{"phase": "assistant_reply", "reply": "Okay, here’s a short poem for you:\n\nThe rain falls soft, a silver hue,\nUpon the rooftops, fresh and new.\nA gentle breeze, a whispered sigh,\nAs clouds drift by, across the sky."}
+{"phase": "model_stream", "user": "Hi", "output": "Hi there! How can I help you today?"}
+{"phase": "assistant_reply", "reply": "Hi there! How can I help you today?"}
+{"phase": "model_stream", "user": "hey dude screenshot pls", "output": "<<COMMAND>>\ntake_screenshot\n"}
+{"phase": "final_reply", "final": "Okay, screenshot taken. The file is located at C:\\voice-agent-final-v6\\screenshots\\screenshot_20250824_032836.png.", "tools": [{"tool": "take_screenshot", "result": {"ok": true, "path": "C:\\voice-agent-final-v6\\screenshots\\screenshot_20250824_032836.png"}}]}
+{"phase": "model_stream", "user": "Hi", "output": "Hi there! How can I help you today?"}
+{"phase": "assistant_reply", "reply": "Hi there! How can I help you today?"}
+{"phase": "model_stream", "user": "Screenshot please dude", "output": "<<COMMAND>>\n{\"name\": \"take_screenshot\", \"args\": {}}"}
+{"phase": "final_reply", "final": "Screenshot taken. The file is located at C:\\voice-agent-final-v6\\screenshots\\screenshot_20250824_034127.png.", "tools": [{"tool": "take_screenshot", "result": {"ok": true, "path": "C:\\voice-agent-final-v6\\screenshots\\screenshot_20250824_034127.png"}}]}
+{"phase": "model_stream", "user": "Jump man", "output": "<<COMMAND>>\n{\"name\": \"take_screenshot\", \"args\": {}}"}
+{"phase": "final_reply", "final": "Screenshot taken. The file is located at C:\\voice-agent-final-v6\\screenshots\\screenshot_20250824_034141.png.", "tools": [{"tool": "take_screenshot", "result": {"ok": true, "path": "C:\\voice-agent-final-v6\\screenshots\\screenshot_20250824_034141.png"}}]}
+{"phase": "model_stream", "user": "hello sup what all functions can u do", "output": "I can perform various text-based tasks, including:\n\n*   Generating creative text formats (poems, code, scripts, musical pieces, email, letters, etc.)\n*   Answering your questions in an informative way\n*   Summarizing text\n*   Translating languages\n*   And much more!\n\n<<END_COMMAND>>"}
+{"phase": "assistant_reply", "reply": "I can perform various text-based tasks, including:\n\n*   Generating creative text formats (poems, code, scripts, musical pieces, email, letters, etc.)\n*   Answering your questions in an informative way\n*   Summarizing text\n*   Translating languages\n*   And much more!\n\n<<END_COMMAND>>"}
+{"phase": "model_stream", "user": "can u take a screen shot", "output": "I can:\n\n*   Take screenshots\n*   Summarize text\n*   Translate languages\n*   Answer questions\n*   Generate creative content (poems, code, scripts, musical pieces, email, letters, etc.)\n\n<<END_COMMAND>>"}
+{"phase": "final_reply", "final": "The ‘take_screenshot’ tool has been executed and the result is a screenshot saved as “C:\\\\voice-agent-final-v8\\\\screenshots\\\\screenshot_20250824_040043.png”.", "tools": [{"tool": "take_screenshot", "result": {"ok": true, "path": "C:\\voice-agent-final-v8\\screenshots\\screenshot_20250824_040043.png"}}]}
+{"phase": "model_stream", "user": "can u chnage the tab", "output": "No, I cannot change the tab."}
+{"phase": "assistant_reply", "reply": "No, I cannot change the tab."}

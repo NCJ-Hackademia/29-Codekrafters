@@ -31,9 +31,10 @@ GESTURES_FILE = os.path.join(SCRIPTS_DIR, "custom_gestures.json")
 MAPPINGS_FILE = os.path.join(SCRIPTS_DIR, "key_mappings.json")
 MOUSE_CONTROLLER_SCRIPT = os.path.join(WORKSPACE_ROOT, "virtual-controlls", "edu-hcare.py")
 AIR_CONTROLLER_SCRIPT = os.path.join(WORKSPACE_ROOT, "virtual-controlls", "air-controller.py")
+AGENT_SCRIPT = os.path.join(WORKSPACE_ROOT, "Agentic-AI", "agent_cmds.py")
 
 # Voice recognition scripts
-VOICE_DIR = os.path.join(WORKSPACE_ROOT, "Voice-auto")
+VOICE_DIR = os.path.join(WORKSPACE_ROOT, "Agentic-AI")
 VOICE_MODEL_PATH = os.path.join(VOICE_DIR, "vosk-model-small-en-us-0.15")
 VOICE_COMMANDS_FILE = os.path.join(VOICE_DIR, "commands.json")
 
@@ -276,6 +277,48 @@ def start_air_controller():
         return jsonify({
             'status': 'error',
             'message': f'Error starting air controller: {str(e)}'
+        })
+
+@app.route('/open_agent', methods=['GET', 'POST'])
+def open_agent():
+    try:
+        # Check if the agent script exists
+        if not os.path.exists(AGENT_SCRIPT):
+            logger.error(f"Agent script not found at: {AGENT_SCRIPT}")
+            return jsonify({
+                'status': 'error',
+                'message': f'Agent script not found at: {AGENT_SCRIPT}'
+            })
+        
+        # Check if Python is in PATH
+        python_cmd = sys.executable
+        
+        # For Windows, we want to show the console window so user can interact
+        if os.name == 'nt':  # Windows
+            # Run agent_cmds.py directly with cmd /k to keep console open
+            cmd = f'start "Agent Console" cmd /k "cd /d {os.path.dirname(AGENT_SCRIPT)} && {python_cmd} agent_cmds.py"'
+            process = subprocess.Popen(
+                cmd,
+                shell=True
+            )
+        else:
+            # For non-Windows systems
+            process = subprocess.Popen(
+                [python_cmd, AGENT_SCRIPT],
+                cwd=os.path.dirname(AGENT_SCRIPT)
+            )
+        
+        logger.info(f"Started agent process with PID: {process.pid}")
+        return jsonify({
+            'status': 'success',
+            'message': 'Agent script opened in new console window',
+            'pid': process.pid
+        })
+    except Exception as e:
+        logger.error(f"Error opening agent script: {str(e)}")
+        return jsonify({
+            'status': 'error',
+            'message': f'Error opening agent script: {str(e)}'
         })
 
 @app.route('/start_voice_command')
