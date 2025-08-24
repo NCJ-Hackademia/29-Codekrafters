@@ -204,4 +204,4 @@ For issues and questions, please refer to the hackathon organizers or create an 
 
 ---
 
-**Built with ❤️ by Team Codekrafters for Hackademia 2025**
+**Built by Team Codekrafters for Hackademia 2025**
