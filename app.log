@@ -1,0 +1,26 @@
+2025-05-29 15:14:40,683 - INFO - Starting Sparsh Mukthi - Gesture Control Interface
+2025-05-29 15:14:40,704 - INFO - Access the application at http://127.0.0.1:5000/gesture-control
+2025-05-29 15:14:40,852 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-05-29 15:14:40,854 - INFO - [33mPress CTRL+C to quit[0m
+2025-05-29 15:14:40,862 - INFO -  * Restarting with stat
+2025-05-29 15:14:47,902 - INFO - Starting Sparsh Mukthi - Gesture Control Interface
+2025-05-29 15:14:47,902 - INFO - Access the application at http://127.0.0.1:5000/gesture-control
+2025-05-29 15:14:47,926 - WARNING -  * Debugger is active!
+2025-05-29 15:14:48,760 - INFO -  * Debugger PIN: 755-215-772
+2025-05-29 15:15:43,742 - INFO - Starting Sparsh Mukthi - Gesture Control Interface
+2025-05-29 15:15:43,743 - INFO - Access the application at http://127.0.0.1:5000/gesture-control
+2025-05-29 15:15:43,812 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-05-29 15:15:43,813 - INFO - [33mPress CTRL+C to quit[0m
+2025-05-29 15:15:43,819 - INFO -  * Restarting with stat
+2025-05-29 15:15:50,232 - INFO - Starting Sparsh Mukthi - Gesture Control Interface
+2025-05-29 15:15:50,233 - INFO - Access the application at http://127.0.0.1:5000/gesture-control
+2025-05-29 15:15:50,257 - WARNING -  * Debugger is active!
+2025-05-29 15:15:50,262 - INFO -  * Debugger PIN: 755-215-772
+2025-05-29 15:15:54,014 - INFO - 127.0.0.1 - - [29/May/2025 15:15:54] "[32mGET / HTTP/1.1[0m" 302 -
+2025-05-29 15:15:54,181 - INFO - 127.0.0.1 - - [29/May/2025 15:15:54] "GET /gesture-control HTTP/1.1" 200 -
+2025-05-29 15:15:54,285 - INFO - 127.0.0.1 - - [29/May/2025 15:15:54] "[33mGET /static/js/gesture_control.js HTTP/1.1[0m" 404 -
+2025-05-29 15:15:54,898 - INFO - 127.0.0.1 - - [29/May/2025 15:15:54] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-05-29 15:16:32,959 - INFO -  * Detected change in 'D:\\vignesh\\files\\Personal\\Dayanand Sagar\\test-404\\CODEKRAFTERS-Sparsh-Mukthi\\app.py', reloading
+2025-05-29 15:16:33,536 - INFO -  * Restarting with stat
