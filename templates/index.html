@@ -1,0 +1,2225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paraso - Professional Gesture Control Interface</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #7c3aed;
+            --accent-color: #059669;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f1f5f9;
+            --header-height: 80px;
+            --glow-color: rgba(37, 99, 235, 0.6);
+            --highlight-color: #f59e0b;
+            --hover-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --border-color: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', 'Rajdhani', sans-serif;
+            background-color: var(--dark-bg);
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.03) 0%, transparent 50%),
+                linear-gradient(45deg, rgba(124, 58, 237, 0.02) 0%, transparent 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Add subtle animation to the background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(125deg, transparent 0%, rgba(0, 243, 255, 0.05) 30%, transparent 60%, rgba(255, 0, 255, 0.05) 100%);
+            background-size: 200% 200%;
+            animation: gradientMove 15s ease infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            position: relative;
+            padding: 0 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--secondary-color), transparent);
+        }
+
+        h1 {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::before, h1::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        h1::before {
+            color: var(--secondary-color);
+            animation: glitch-1 5s infinite linear alternate-reverse;
+        }
+
+        h1::after {
+            color: var(--accent-color);
+            animation: glitch-2 7.5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-1 {
+            0%, 94%, 100% { transform: translate(0); }
+            95% { transform: translate(-5px, 2px); }
+            96% { transform: translate(3px, -5px); }
+            97% { transform: translate(-2px, 4px); }
+            98% { transform: translate(5px, -2px); }
+            99% { transform: translate(-5px, 5px); }
+        }
+
+        @keyframes glitch-2 {
+            0%, 94%, 100% { transform: translate(0); }
+            95% { transform: translate(5px, -2px); }
+            96% { transform: translate(-3px, 5px); }
+            97% { transform: translate(2px, -4px); }
+            98% { transform: translate(-5px, 2px); }
+            99% { transform: translate(5px, -5px); }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            margin-bottom: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: none;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .version {
+            font-size: 0.85rem;
+            color: var(--text-color);
+            opacity: 0.6;
+            font-weight: 400;
+        }
+
+        .instructions-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .instructions-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        /* Instruction content styles */
+        .intro-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+        
+        .highlight {
+            color: #00d7ff;
+            font-weight: 700;
+        }
+        
+        .instruction-subheader {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .instruction-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .instruction-step {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 1.2rem;
+            border: 1px solid rgba(0, 243, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .instruction-step:hover {
+            transform: translateX(5px);
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .step-number {
+            background: #0088a3;
+            color: #ffffff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            flex-shrink: 0;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .step-content h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .step-content p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-color);
+        }
+        
+        .instruction-note {
+            background: rgba(255, 204, 0, 0.1);
+            border-left: 3px solid var(--highlight-color);
+            padding: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .instruction-note i {
+            color: var(--highlight-color);
+            font-size: 1.2rem;
+            margin-top: 0.2rem;
+        }
+        
+        .instruction-note p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-color);
+        }
+        
+        /* Gesture Grid Styles */
+        .gesture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .gesture-item {
+            display: flex;
+            background: rgba(26, 26, 58, 0.7);
+            border: 1px solid #0088a3;
+            border-radius: 10px;
+            padding: 1.2rem;
+            align-items: center;
+            gap: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .gesture-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-color: #00a0c2;
+        }
+        
+        .gesture-icon {
+            font-size: 3rem;
+            background: #1a1a3a;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+        }
+        
+        .gesture-details h4 {
+            color: #00a0c2;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .gesture-details p {
+            color: #e0e0ff;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .gesture-instructions > p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+        
+        .section-title {
+            color: #00d7ff;
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(0, 160, 194, 0.4);
+            padding-bottom: 0.5rem;
+        }
+        
+        .key-binding {
+            background-color: #0a0a20;
+            color: #00d7ff;
+            font-family: 'Courier New', monospace;
+            display: inline-block;
+            padding: 0.3rem 0.7rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            border: 1px solid rgba(0, 160, 194, 0.3);
+        }
+        
+        /* Train New Gesture Section Styles */
+        .train-gesture-section {
+            background-color: rgba(26, 26, 58, 0.7);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            border: 1px solid #0088a3;
+        }
+        
+        .train-gesture-section p {
+            color: #e0e0ff;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .train-new-gesture-btn {
+            background: linear-gradient(135deg, #1a1a3a, #2a2a4a);
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            border: 1px solid #0088a3;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .train-new-gesture-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 136, 163, 0.3);
+            border-color: #00a0c2;
+        }
+        
+        .gesture-training-info {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-left: 3px solid #00a0c2;
+        }
+        
+        .gesture-training-info p {
+            font-size: 0.95rem;
+            margin: 0;
+            color: #c0c0ff;
+        }
+        
+        .gesture-training-info i {
+            color: #00d7ff;
+            margin-right: 0.5rem;
+        }
+        
+        .gesture-controls {
+            display: flex;
+            margin-top: 1rem;
+            gap: 0.5rem;
+        }
+        
+        .gesture-btn {
+            background: #1a1a3a;
+            color: white;
+            border: 1px solid #0088a3;
+            border-radius: 4px;
+            padding: 0.4rem 0.7rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .gesture-btn:hover {
+            background: #2a2a4a;
+            transform: translateY(-2px);
+        }
+        
+        .gesture-btn i {
+            font-size: 0.8rem;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .panel-header i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: var(--primary-color);
+        }
+
+        .panel-header h2 {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            color: var(--primary-color);
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .commands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .command-item {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .command-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 243, 255, 0.2);
+        }
+
+        .command-item.default {
+            border-color: var(--secondary-color);
+        }
+
+        .command-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .command-desc {
+            font-size: 1rem;
+            color: var(--text-color);
+            opacity: 0.8;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .command-key {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .command-actions {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .command-button {
+            background: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .command-button:hover {
+            background: var(--primary-color);
+            color: var(--background-color);
+        }
+
+        .usage-instructions {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .usage-instructions h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .usage-instructions h3 i {
+            margin-right: 0.5rem;
+        }
+
+        .usage-instructions ol {
+            list-style-type: none;
+            counter-reset: inst;
+            padding: 0;
+        }
+
+        .usage-instructions li {
+            counter-increment: inst;
+            margin-bottom: 1rem;
+            padding-left: 2.5rem;
+            position: relative;
+            text-align: left;
+        }
+
+        .usage-instructions li::before {
+            content: counter(inst);
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1.8rem;
+            height: 1.8rem;
+            background: var(--primary-color);
+            color: var(--background-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: var(--primary-color);
+            background: linear-gradient(180deg, var(--card-bg), #2d3748);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(0, 243, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+
+        .card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            background: rgba(37, 99, 235, 0.1);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(37, 99, 235, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover .card-icon {
+            transform: scale(1.05);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
+        }
+
+        .card h2 {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .card p {
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+
+        .cyber-button {
+            background: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            color: white;
+            padding: 0.875rem 1.75rem;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .cyber-button:hover {
+            background: var(--hover-color);
+            border-color: var(--hover-color);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .cyber-button i {
+            font-size: 1.2rem;
+        }
+        
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+        
+        .stop-button {
+            background-color: rgba(255, 0, 0, 0.2);
+            border-color: #ff0000;
+        }
+        
+        .stop-button:hover {
+            background-color: #ff0000;
+        }
+        
+        .stop-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .stop-button:disabled:hover {
+            background-color: rgba(255, 0, 0, 0.2);
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .stop-all-button {
+            background-color: rgba(255, 0, 0, 0.3);
+            border-color: #ff0000;
+        }
+        
+        .stop-all-button:hover {
+            background-color: #ff0000;
+        }
+
+        .control-panel {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            width: 100%;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .control-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(0, 243, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+        
+        .control-panel:hover::before {
+            transform: translateX(100%);
+        }
+
+        .control-button {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-color);
+            padding: 0.875rem 1.5rem;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 180px;
+            letter-spacing: 0.5px;
+            text-transform: none;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        .control-button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background: linear-gradient(to top, rgba(0, 243, 255, 0.2), transparent);
+            transition: height 0.3s ease;
+            z-index: -1;
+        }
+        
+        .control-button:hover::after {
+            height: 100%;
+        }
+
+        .control-button:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
+        .control-button i {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .control-button:hover i {
+            transform: scale(1.2);
+            color: var(--hover-color);
+        }
+
+        .status-message {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.95);
+            color: var(--text-color);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--panel-color);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 5px;
+            font-family: 'Rajdhani', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            background: var(--card-bg);
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 12px;
+        }
+        
+        footer p {
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .footer-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+        
+        .footer-link:hover {
+            color: var(--hover-color);
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .commands-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+
+        .key-mapping-modal .modal-content {
+            max-width: 400px;
+        }
+
+        .key-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 0.8rem;
+            width: 100%;
+            border-radius: 5px;
+            font-family: 'Rajdhani', sans-serif;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        .key-input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+        }
+
+        .key-hint {
+            color: var(--text-color);
+            opacity: 0.7;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        /* AI Features Section Styles */
+        .ai-features-panel {
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, rgba(18, 18, 42, 0.8), rgba(10, 10, 22, 0.9));
+            border: 1px solid var(--accent-color);
+        }
+        
+        .ai-features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .ai-feature {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ai-feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 255, 157, 0.2);
+            border-color: var(--accent-color);
+        }
+        
+        .ai-feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #00b377, #0088a3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            position: relative;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .ai-feature-icon i {
+            font-size: 1.5rem;
+            color: var(--dark-bg);
+        }
+        
+        .ai-feature h3 {
+            color: var(--accent-color);
+            margin-bottom: 0.8rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+        }
+        
+        .ai-feature p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+        
+        /* TRY Section Styles */
+        .try-panel {
+            background: linear-gradient(to right, #0a0a1a, #151535, #0a0a1a);
+            margin-top: 2rem;
+        }
+        
+        .try-description {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #e0e0ff;
+            margin: 0.5rem 0 2rem;
+        }
+        
+        .try-options {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .try-option {
+            background: rgba(18, 18, 42, 0.7);
+            border: 1px solid #0088a3;
+            border-radius: 12px;
+            padding: 2rem;
+            flex: 1;
+            min-width: 280px;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .try-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 136, 163, 0.3);
+            border-color: #00d7ff;
+        }
+        
+        .try-icon {
+            background: rgba(0, 215, 255, 0.1);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            border: 2px solid rgba(0, 215, 255, 0.3);
+        }
+        
+        .try-icon i {
+            font-size: 2.5rem;
+            color: #00d7ff;
+        }
+        
+        .try-option h3 {
+            color: #00d7ff;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .try-option p {
+            color: #e0e0ff;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        
+        /* Enhanced button styles */
+        .control-button {
+            background-color: #1a1a3a;
+            color: #ffffff;
+            border: 1px solid #0088a3;
+            border-radius: 5px;
+            padding: 0.8rem 1.2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .control-button:hover {
+            background-color: #2a2a4a;
+            border-color: #00a0c2;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 data-text="Paraso">Paraso</h1>
+            <p class="subtitle">Professional Gesture & Voice Control System</p>
+            <p class="version">v2.0.0</p>
+        </header>
+
+        <div class="control-panel">
+            <div class="panel-header">
+                <i class="fas fa-gamepad"></i>
+                <h2>Control Panel</h2>
+            </div>
+            <div class="button-group">
+                <button id="prediction-btn" class="control-button">
+                    <i class="fas fa-play"></i> Start Gesture Recognition
+                </button>
+                <button id="mouse-btn" class="control-button">
+                    <i class="fas fa-mouse-pointer"></i> Start Mouse Controller
+                </button>
+
+                <button id="agentic-ai" class="control-button">
+                    <i class="fas fa-keyboard"></i> Call Agent (Opens Console)
+                </button>
+                <button id="stop-all-btn" class="control-button danger">
+                    <i class="fas fa-stop"></i> Stop All Processes
+                </button>
+            </div>
+            <div style="margin-top: 1rem; padding: 1rem; background: rgba(0, 0, 0, 0.2); border-radius: 8px; border-left: 3px solid var(--primary-color);">
+                <p style="margin: 0; color: var(--text-color); font-size: 0.9rem;">
+                    <i class="fas fa-info-circle"></i> <strong>Call Agent Instructions:</strong> Runs agent_cmds.py in a new console window. 
+                    <strong>Look for the new console window!</strong> Say "hey jarvis" to activate voice commands, 
+                    then give instructions like "take a screenshot" or "open chrome". The console stays open for interaction.
+                </p>
+            </div>
+        </div>
+
+        <div class="instructions-panel">
+            <div class="panel-header">
+                <i class="fas fa-info-circle"></i>
+                <h2>Getting Started Guide</h2>
+            </div>
+            <div class="instruction-content">
+                <p class="intro-text">Welcome to <span class="highlight">Paraso</span>, a professional-grade gesture and voice control system powered by adaptive AI. Control your computer completely hands-free with natural movements and voice commands.</p>
+                
+                <h3 class="instruction-subheader"><i class="fas fa-hand-point-right"></i> Quick Start Guide</h3>
+                
+                <div class="instruction-steps">
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Gesture Recognition</h4>
+                            <p>Click <strong>Start Gesture Recognition</strong> to activate the camera and begin detecting your hand gestures. Perform the trained gestures to trigger keyboard actions.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Mouse Control</h4>
+                            <p>Use <strong>Start Mouse Controller</strong> to control your cursor with hand movements. Move your hand to position the cursor, and make specific gestures for clicks.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Voice Commands</h4>
+                            <p>Click <strong>Start Voice Commands</strong> to control your computer with voice. Say commands like "up", "down", "left", "right" to navigate.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Voice Typing</h4>
+                            <p>Activate <strong>Start Voice Typing</strong>, then click in any text field (like Notepad) and speak clearly. Your speech will be converted to text automatically.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="instruction-note">
+                    <i class="fas fa-lightbulb"></i>
+                    <p>When finished, click <strong>Stop All Processes</strong> to close all running components and free up system resources.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="instructions-panel">
+            <div class="panel-header">
+                <i class="fas fa-hand-paper"></i>
+                <h2>GESTURES USED</h2>
+            </div>
+            
+            <div class="gesture-instructions">
+                <p>Below are the common gestures and how to perform them:</p>
+                
+                <h3 class="section-title">Mouse Control Gestures (EDU-HCARE)</h3>
+                <div class="gesture-grid">
+                    <div class="gesture-item">
+                        <div class="gesture-icon">👆</div>
+                        <div class="gesture-details">
+                            <h4>CURSOR MOVEMENT</h4>
+                            <p>Move your index finger to control the mouse pointer</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gesture-item">
+                        <div class="gesture-icon">✊</div>
+                        <div class="gesture-details">
+                            <h4>LEFT CLICK</h4>
+                            <p>Close your hand into a fist to perform a left click</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gesture-item">
+                        <div class="gesture-icon">✌️</div>
+                        <div class="gesture-details">
+                            <h4>RIGHT CLICK</h4>
+                            <p>Show peace sign (index and middle finger) for right click</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gesture-item">
+                        <div class="gesture-icon">👍</div>
+                        <div class="gesture-details">
+                            <h4>DOUBLE CLICK</h4>
+                            <p>Thumbs up gesture for double-clicking</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gesture-item">
+                        <div class="gesture-icon">🤚</div>
+                        <div class="gesture-details">
+                            <h4>DRAG AND DROP</h4>
+                            <p>Closed fist with thumb out to grab and move objects</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gesture-item">
+                        <div class="gesture-icon">🖐️</div>
+                        <div class="gesture-details">
+                            <h4>PAUSE/STOP</h4>
+                            <p>Open palm to pause mouse control temporarily</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="section-title">Keyboard Control Gestures</h3>
+                <div class="gesture-grid">
+                    <div class="gesture-item">
+                        <div class="gesture-icon">🖐️</div>
+                        <div class="gesture-details">
+                            <h4>STOP</h4>
+                            <p>Open palm with fingers spread to stop current operation</p>
+                            <div class="key-binding">KEY: Stop</div>
+                            <div class="gesture-controls">
+                                <button class="gesture-btn map-key" data-gesture="stop">
+                                    <i class="fas fa-keyboard"></i> Map Key
+                                </button>
+                                <button class="gesture-btn train" data-gesture="stop">
+                                    <i class="fas fa-video"></i> Train
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gesture-item">
+                        <div class="gesture-icon">👈</div>
+                        <div class="gesture-details">
+                            <h4>LEFT</h4>
+                            <p>Point to the left with index finger</p>
+                            <div class="key-binding">KEY: LEFT Arrow</div>
+                            <div class="gesture-controls">
+                                <button class="gesture-btn map-key" data-gesture="left">
+                                    <i class="fas fa-keyboard"></i> Map Key
+                                </button>
+                                <button class="gesture-btn train" data-gesture="left">
+                                    <i class="fas fa-video"></i> Train
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gesture-item">
+                        <div class="gesture-icon">👉</div>
+                        <div class="gesture-details">
+                            <h4>RIGHT</h4>
+                            <p>Point to the right with index finger</p>
+                            <div class="key-binding">KEY: RIGHT Arrow</div>
+                            <div class="gesture-controls">
+                                <button class="gesture-btn map-key" data-gesture="right">
+                                    <i class="fas fa-keyboard"></i> Map Key
+                                </button>
+                                <button class="gesture-btn train" data-gesture="right">
+                                    <i class="fas fa-video"></i> Train
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gesture-item">
+                        <div class="gesture-icon">👆</div>
+                        <div class="gesture-details">
+                            <h4>UP</h4>
+                            <p>Point upward with index finger</p>
+                            <div class="key-binding">KEY: UP Arrow</div>
+                            <div class="gesture-controls">
+                                <button class="gesture-btn map-key" data-gesture="up">
+                                    <i class="fas fa-keyboard"></i> Map Key
+                                </button>
+                                <button class="gesture-btn train" data-gesture="up">
+                                    <i class="fas fa-video"></i> Train
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gesture-item">
+                        <div class="gesture-icon">👇</div>
+                        <div class="gesture-details">
+                            <h4>DOWN</h4>
+                            <p>Point downward with index finger</p>
+                            <div class="key-binding">KEY: DOWN Arrow</div>
+                            <div class="gesture-controls">
+                                <button class="gesture-btn map-key" data-gesture="down">
+                                    <i class="fas fa-keyboard"></i> Map Key
+                                </button>
+                                <button class="gesture-btn train" data-gesture="down">
+                                    <i class="fas fa-video"></i> Train
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gesture-item">
+                        <div class="gesture-icon">🤲</div>
+                        <div class="gesture-details">
+                            <h4>NONE</h4>
+                            <p>Pinched fingers for no action</p>
+                            <div class="key-binding">KEY: None</div>
+                            <div class="gesture-controls">
+                                <button class="gesture-btn map-key" data-gesture="none">
+                                    <i class="fas fa-keyboard"></i> Map Key
+                                </button>
+                                <button class="gesture-btn train" data-gesture="none">
+                                    <i class="fas fa-video"></i> Train
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gesture-item">
+                        <div class="gesture-icon">🔙</div>
+                        <div class="gesture-details">
+                            <h4>UNDO</h4>
+                            <p>Counterclockwise circular motion with index finger</p>
+                            <div class="key-binding">KEY: CTRL+Z</div>
+                            <div class="gesture-controls">
+                                <button class="gesture-btn map-key" data-gesture="undo">
+                                    <i class="fas fa-keyboard"></i> Map Key
+                                </button>
+                                <button class="gesture-btn train" data-gesture="undo">
+                                    <i class="fas fa-video"></i> Train
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gesture-item">
+                        <div class="gesture-icon">🔄</div>
+                        <div class="gesture-details">
+                            <h4>REDO</h4>
+                            <p>Clockwise circular motion with index finger</p>
+                            <div class="key-binding">KEY: CTRL+Y</div>
+                            <div class="gesture-controls">
+                                <button class="gesture-btn map-key" data-gesture="redo">
+                                    <i class="fas fa-keyboard"></i> Map Key
+                                </button>
+                                <button class="gesture-btn train" data-gesture="redo">
+                                    <i class="fas fa-video"></i> Train
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dynamic gesture list removed as it's redundant with our visual gesture grid -->
+                
+                <h3 class="section-title">Train New Gesture</h3>
+                <div class="train-gesture-section">
+                    <p>Create your own custom gestures by clicking the button below:</p>
+                    <button class="cyber-button train-new-gesture-btn" onclick="openTrainingModal()">
+                        <i class="fas fa-plus-circle"></i> Train New Gesture
+                    </button>
+                    <div class="gesture-training-info">
+                        <p><i class="fas fa-info-circle"></i> When training a new gesture, you'll be asked to perform the gesture multiple times in front of your camera to help the system learn.</p>
+                    </div>
+                </div>
+                
+                <div class="usage-instructions">
+                    <h3><i class="fas fa-info-circle"></i> How to Use</h3>
+                    <ol>
+                        <li>Train the default gestures or add your own custom gestures</li>
+                        <li>Customize key mappings by clicking the "Map Key" button on any command</li>
+                        <li>Click "Train New Gesture" to record your gestures</li>
+                        <li>Once training is complete, click "Live Prediction" to start</li>
+                        <li>Perform the gestures in front of your camera to trigger the mapped keys</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Adaptive AI Features Section -->
+        <div class="instructions-panel ai-features-panel">
+            <div class="panel-header">
+                <i class="fas fa-brain"></i>
+                <h2>Adaptive AI Technology</h2>
+            </div>
+            <div class="ai-features-grid">
+                <div class="ai-feature">
+                    <div class="ai-feature-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3>Neural Network Recognition</h3>
+                    <p>Our advanced neural network models can recognize complex hand gestures with high accuracy, even in varying lighting conditions.</p>
+                </div>
+                <div class="ai-feature">
+                    <div class="ai-feature-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Self-Learning System</h3>
+                    <p>The system continuously improves its recognition capabilities by learning from your interactions and adapting to your unique gesture style.</p>
+                </div>
+                <div class="ai-feature">
+                    <div class="ai-feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Precision Enhancement</h3>
+                    <p>Our adaptive algorithms refine gesture detection over time, increasing accuracy from 85% to over 98% with regular use.</p>
+                </div>
+                <div class="ai-feature">
+                    <div class="ai-feature-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3>Contextual Awareness</h3>
+                    <p>The system understands context and can differentiate between similar gestures based on the application you're using.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- New TRY Section -->
+        <div class="instructions-panel try-panel">
+            <div class="panel-header">
+                <i class="fas fa-rocket"></i>
+                <h2>TRY IT NOW</h2>
+            </div>
+            <p class="try-description">Experience Paraso in action with these ready-to-use demos:</p>
+            
+            <div class="try-options">
+                <div class="try-option">
+                    <div class="try-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Education</h3>
+                    <p>Use hand gestures to navigate a 3D human anatomy model. Perfect for medical students and educators.</p>
+                    <button class="cyber-button" onclick="startEducationDemo()">
+                        <i class="fas fa-play"></i> Start Demo
+                    </button>
+                </div>
+                
+                <div class="try-option">
+                    <div class="try-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>Gaming</h3>
+                    <p>Control a first-person shooter game using air gestures. Experience the future of gaming interaction.</p>
+                    <button class="cyber-button" onclick="startGamingDemo()">
+                        <i class="fas fa-play"></i> Start Demo
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="card">
+                <i class="fas fa-camera card-icon"></i>
+                <h2>Live Prediction</h2>
+                <p>Use your trained gestures in real-time. The system will recognize your gestures and perform the associated actions.</p>
+                <div class="button-group">
+                    <button class="cyber-button" onclick="startPrediction()">
+                        <i class="fas fa-play"></i>
+                        Start Prediction
+                    </button>
+                    <button class="cyber-button stop-button" onclick="stopProcess('prediction')" id="stop-prediction-btn" disabled>
+                        <i class="fas fa-stop"></i>
+                        Stop
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <i class="fas fa-mouse-pointer card-icon"></i>
+                <h2>Mouse Controller</h2>
+                <p>Launch the EDU-HCARE mouse controller to control your cursor with hand gestures. Use your hands to move the cursor and perform clicks.</p>
+                <div class="button-group">
+                    <button class="cyber-button" onclick="startMouseController()">
+                        <i class="fas fa-hand-pointer"></i>
+                        Start Mouse Controller
+                    </button>
+                    <button class="cyber-button stop-button" onclick="stopProcess('mouse')" id="stop-mouse-btn" disabled>
+                        <i class="fas fa-stop"></i>
+                        Stop
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <i class="fas fa-power-off card-icon"></i>
+                <h2>Stop All Processes</h2>
+                <p>Stop all running processes including prediction and mouse controller.</p>
+                <button class="cyber-button stop-all-button" onclick="stopAllProcesses()">
+                    <i class="fas fa-stop-circle"></i>
+                    Stop All Processes
+                </button>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 Paraso - Professional Gesture & Voice Control System</p>
+            <p>Developed by CODEKRAFTERS</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link"><i class="fas fa-code"></i> GitHub</a>
+                <a href="#" class="footer-link"><i class="fas fa-book"></i> Documentation</a>
+                <a href="#" class="footer-link"><i class="fas fa-question-circle"></i> Support</a>
+            </div>
+        </footer>
+    </div>
+
+    <div id="trainingModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeTrainingModal()"><i class="fas fa-times"></i></button>
+            <div class="panel-header">
+                <i class="fas fa-graduation-cap"></i>
+                <h2>Train New Gesture</h2>
+            </div>
+            <form id="gestureForm" onsubmit="return startTraining(event)">
+                <div class="form-group">
+                    <label for="gestureName">Gesture Name:</label>
+                    <input type="text" id="gestureName" required placeholder="e.g., wave_right, peace_sign">
+                </div>
+                <div class="form-group">
+                    <label for="gestureFunction">Gesture Function:</label>
+                    <textarea id="gestureFunction" required placeholder="Describe what this gesture should do..."></textarea>
+                </div>
+                <button type="submit" class="cyber-button">
+                    <i class="fas fa-play"></i>
+                    Start Training
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="statusMessage" class="status-message"></div>
+
+    <div id="keyMappingModal" class="modal key-mapping-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeKeyMappingModal()"><i class="fas fa-times"></i></button>
+            <div class="panel-header">
+                <i class="fas fa-keyboard"></i>
+                <h2>Map Key for <span id="mappingGestureName"></span></h2>
+            </div>
+            <div class="key-hint">Press the key or key combination you want to map</div>
+            <input type="text" id="keyInput" class="key-input" readonly placeholder="Press key(s)...">
+            <button class="cyber-button" onclick="saveKeyMapping()">
+                <i class="fas fa-save"></i>
+                Save Mapping
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentMappingGesture = null;
+        let capturedKey = null;
+        // Variables for tracking active processes
+        let runningProcesses = {
+            prediction: null,
+            mouse: null
+        };
+
+        // Demo Functions
+        async function startMouseController() {
+            try {
+                showStatus('Starting Mouse Controller...');
+                console.log('Attempting to start mouse controller...');
+                
+                // Call the backend to start the mouse controller
+                const response = await fetch('/start_mouse_controller', {
+                    method: 'GET',  // Changed to GET to match the error message
+                    cache: 'no-cache'
+                });
+                
+                console.log('Response received:', response);
+                const data = await response.json();
+                console.log('Parsed data:', data);
+                
+                if (data.status === 'success') {
+                    mouseControllerPid = data.pid;
+                    const stopButton = document.getElementById('stop-mouse-btn');
+                    if (stopButton) stopButton.disabled = false;
+                    showStatus('Mouse Controller started successfully');
+                    return true;  // Return true to indicate success for function chaining
+                } else {
+                    console.error('Backend error:', data.message);
+                    showStatus('Error starting Mouse Controller: ' + data.message, true);
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error starting Mouse Controller:', error);
+                showStatus('Error starting Mouse Controller. See console for details.', true);
+                return false;
+            }
+        }
+        
+        async function startEducationDemo() {
+            try {
+                showStatus('Starting Education Demo...');
+                
+                // Open the anatomy website in a new tab
+                window.open('https://human.biodigital.com/view?id=production/maleAdult/male_complete_anatomy_19_5&lang=en', '_blank');
+                
+                // Start the EDU-HCARE controller
+                const success = await startMouseController();
+                
+                if (success) {
+                    showStatus('Education Demo started successfully!');
+                }
+            } catch (error) {
+                console.error('Error starting Education Demo:', error);
+                showStatus('Error starting Education Demo', true);
+            }
+        }
+        
+        async function startGamingDemo() {
+            try {
+                showStatus('Starting Gaming Demo...');
+                console.log('Attempting to start gaming demo...');
+                
+                // Open the gaming website in a new tab
+                window.open('https://venge.io/#', '_blank');
+                
+                // Start the air controller
+                const response = await fetch('/start_air_controller', {
+                    method: 'GET',  // Changed to GET for consistency
+                    cache: 'no-cache'
+                });
+                
+                console.log('Response received:', response);
+                const data = await response.json();
+                console.log('Parsed data:', data);
+                
+                if (data.status === 'success') {
+                    airControllerPid = data.pid;
+                    const stopButton = document.getElementById('stop-prediction-btn');
+                    if (stopButton) stopButton.disabled = false;
+                    showStatus('Air Controller started for gaming');
+                } else {
+                    console.error('Backend error:', data.message);
+                    showStatus('Error starting Air Controller: ' + data.message, true);
+                }
+            } catch (error) {
+                console.error('Error starting Gaming Demo:', error);
+                showStatus('Error starting Gaming Demo', true);
+            }
+        }
+        
+        // When the window is about to be closed, stop all processes
+        window.addEventListener('beforeunload', function() {
+            stopAllProcesses();
+        });
+
+        // Load existing gestures when the page loads
+        window.addEventListener('load', function() {
+            loadGestures();
+            initializeGestureButtons();
+        });
+
+        function showStatus(message, isError = false) {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.textContent = message;
+            statusEl.style.opacity = '1';
+            
+            if (isError) {
+                statusEl.style.backgroundColor = 'rgba(255, 0, 0, 0.8)';
+                statusEl.style.borderColor = 'var(--error-color)';
+                statusEl.style.boxShadow = '0 0 20px rgba(255, 0, 0, 0.3)';
+            } else {
+                statusEl.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                statusEl.style.borderColor = 'var(--primary-color)';
+                statusEl.style.boxShadow = '0 0 20px rgba(0, 243, 255, 0.3)';
+            }
+            
+            // Clear any existing timeout
+            if (window.statusTimeout) {
+                clearTimeout(window.statusTimeout);
+            }
+            
+            // Set new timeout
+            window.statusTimeout = setTimeout(() => {
+                statusEl.style.opacity = '0';
+            }, 5000);
+        }
+
+        function openTrainingModal() {
+            document.getElementById('trainingModal').classList.add('active');
+        }
+
+        function closeTrainingModal() {
+            document.getElementById('trainingModal').classList.remove('active');
+            document.getElementById('gestureForm').reset();
+        }
+
+        function updateGestureList(gestures) {
+            const gestureList = document.getElementById('gestureList');
+            gestureList.innerHTML = '';
+            
+            if (Object.keys(gestures).length === 0) {
+                gestureList.innerHTML = `
+                    <div class="command-item" style="grid-column: 1 / -1; text-align: center;">
+                        <span class="command-name"><i class="fas fa-info-circle"></i> No Gestures Yet</span>
+                        <span class="command-desc">Click "Train New Gesture" to add your first gesture</span>
+                    </div>
+                `;
+                return;
+            }
+            
+            Object.entries(gestures).forEach(([name, details]) => {
+                const gestureItem = document.createElement('div');
+                gestureItem.className = `command-item${details.default ? ' default' : ''}`;
+                
+                let keyText = '';
+                if (details.key) {
+                    keyText = `<span class="command-key">
+                        <i class="fas fa-keyboard"></i> ${details.key}
+                    </span>`;
+                }
+
+                gestureItem.innerHTML = `
+                    <span class="command-name">
+                        <i class="fas fa-hand-paper"></i> ${name}
+                    </span>
+                    <span class="command-desc">${details.function}</span>
+                    ${keyText}
+                    <div class="command-actions">
+                        <button class="command-button" onclick="openKeyMappingModal('${name}')">
+                            <i class="fas fa-keyboard"></i> Map Key
+                        </button>
+                        ${!details.trained ? `
+                            <button class="command-button" onclick="startTrainingForGesture('${name}')">
+                                <i class="fas fa-graduation-cap"></i> Train
+                            </button>
+                        ` : ''}
+                    </div>
+                `;
+                gestureList.appendChild(gestureItem);
+            });
+        }
+
+        function openKeyMappingModal(gestureName) {
+            currentMappingGesture = gestureName;
+            document.getElementById('mappingGestureName').textContent = gestureName;
+            document.getElementById('keyInput').value = '';
+            document.getElementById('keyMappingModal').classList.add('active');
+            capturedKey = null;
+        }
+
+        function closeKeyMappingModal() {
+            document.getElementById('keyMappingModal').classList.remove('active');
+            currentMappingGesture = null;
+            capturedKey = null;
+        }
+
+        // Key capture logic
+        document.getElementById('keyInput').addEventListener('keydown', function(e) {
+            e.preventDefault();
+            
+            let keys = [];
+            if (e.ctrlKey) keys.push('CTRL');
+            if (e.shiftKey) keys.push('SHIFT');
+            if (e.altKey) keys.push('ALT');
+            
+            // Add the main key if it's not a modifier
+            if (!['Control', 'Shift', 'Alt'].includes(e.key)) {
+                keys.push(e.key.toUpperCase());
+            }
+            
+            capturedKey = keys.join('+');
+            this.value = capturedKey;
+        });
+
+        async function saveKeyMapping() {
+            if (!currentMappingGesture || !capturedKey) return;
+
+            try {
+                const response = await fetch('/update_mapping', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        gesture: currentMappingGesture,
+                        key: capturedKey
+                    })
+                });
+                const data = await response.json();
+                showStatus(data.message, data.status === 'error');
+                if (data.status === 'success') {
+                    closeKeyMappingModal();
+                    loadGestures();
+                }
+            } catch (error) {
+                showStatus('Error updating key mapping', true);
+            }
+        }
+
+        async function startTraining(event) {
+            event.preventDefault();
+            const gestureName = document.getElementById('gestureName').value.trim();
+            const gestureFunction = document.getElementById('gestureFunction').value.trim();
+            
+            if (!gestureName || !gestureFunction) {
+                showStatus('Please provide both gesture name and function', true);
+                return false;
+            }
+            
+            try {
+                showStatus('Starting training process...');
+                closeTrainingModal();
+                
+                const response = await fetch('/start_training', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: gestureName,
+                        function: gestureFunction
+                    })
+                });
+                const data = await response.json();
+                showStatus(data.message, data.status === 'error');
+                
+                // Reload gestures after training starts
+                if (data.status === 'success') {
+                    setTimeout(loadGestures, 1000);
+                }
+            } catch (error) {
+                showStatus('Error starting training process', true);
+            }
+            return false;
+        }
+        
+        async function startTrainingForGesture(gestureName) {
+            try {
+                const response = await fetch('/start_training', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: gestureName,
+                        function: `Default ${gestureName} gesture`
+                    })
+                });
+                const data = await response.json();
+                showStatus(data.message, data.status === 'error');
+            } catch (error) {
+                showStatus('Error starting training process', true);
+            }
+        }
+
+        async function loadGestures() {
+            try {
+                const response = await fetch('/get_gestures');
+                const data = await response.json();
+                if (data.status === 'success') {
+                    updateGestureList(data.gestures);
+                } else {
+                    console.warn('Gesture data not in expected format:', data);
+                    // Use default gestures if API fails
+                    updateGestureList({
+                        "stop": {"function": "Stop current operation", "trained": false, "default": true},
+                        "left": {"function": "Navigate left", "trained": false, "default": true, "key": "LEFT"},
+                        "right": {"function": "Navigate right", "trained": false, "default": true, "key": "RIGHT"},
+                        "up": {"function": "Navigate up", "trained": false, "default": true, "key": "UP"},
+                        "down": {"function": "Navigate down", "trained": false, "default": true, "key": "DOWN"},
+                        "none": {"function": "No action", "trained": false, "default": true}
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading gestures:', error);
+                // Use default gestures if API fails
+                updateGestureList({
+                    "stop": {"function": "Stop current operation", "trained": false, "default": true},
+                    "left": {"function": "Navigate left", "trained": false, "default": true, "key": "LEFT"},
+                    "right": {"function": "Navigate right", "trained": false, "default": true, "key": "RIGHT"},
+                    "up": {"function": "Navigate up", "trained": false, "default": true, "key": "UP"},
+                    "down": {"function": "Navigate down", "trained": false, "default": true, "key": "DOWN"},
+                    "none": {"function": "No action", "trained": false, "default": true}
+                });
+            }
+        }
+
+        async function startPrediction() {
+            // Visual feedback that button was clicked
+            const button = document.getElementById('prediction-btn');
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Starting...';
+            button.disabled = true;
+            showStatus("Starting gesture recognition...");
+            
+            try {
+                const response = await fetch('/start_prediction');
+                const data = await response.json();
+                
+                if (data.status === 'success' && data.pid) {
+                    predictionPid = data.pid;
+                    button.innerHTML = '<i class="fas fa-play"></i> Gesture Recognition Active';
+                    button.classList.add('active');
+                    button.disabled = false;
+                    showStatus("Gesture recognition started. Make gestures to control your computer.");
+                } else {
+                    button.innerHTML = '<i class="fas fa-play"></i> Start Gesture Recognition';
+                    button.disabled = false;
+                    showStatus(data.message, true);
+                }
+            } catch (error) {
+                button.innerHTML = '<i class="fas fa-play"></i> Start Gesture Recognition';
+                button.disabled = false;
+                console.error('Error starting prediction:', error);
+                showStatus("Error starting gesture recognition. See console for details.", true);
+            }
+        }
+        
+        async function startMouseController() {
+            // Visual feedback that button was clicked
+            const button = document.getElementById('mouse-btn');
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Starting...';
+            button.disabled = true;
+            showStatus("Starting mouse controller...");
+            
+            try {
+                const response = await fetch('/start_mouse_controller');
+                const data = await response.json();
+                
+                if (data.status === 'success' && data.pid) {
+                    mouseControllerPid = data.pid;
+                    button.innerHTML = '<i class="fas fa-mouse-pointer"></i> Mouse Controller Active';
+                    button.classList.add('active');
+                    button.disabled = false;
+                    showStatus("Mouse controller started. Use hand gestures to control your mouse.");
+                } else {
+                    button.innerHTML = '<i class="fas fa-mouse-pointer"></i> Start Mouse Controller';
+                    button.disabled = false;
+                    showStatus(data.message, true);
+                }
+            } catch (error) {
+                button.innerHTML = '<i class="fas fa-mouse-pointer"></i> Start Mouse Controller';
+                button.disabled = false;
+                console.error('Error starting mouse controller:', error);
+                showStatus("Error starting mouse controller. See console for details.", true);
+            }
+        }
+        
+        async function openAgent() {
+            // Visual feedback that button was clicked
+            const button = document.getElementById('agentic-ai');
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Opening...';
+            button.disabled = true;
+            showStatus("Opening agent script...");
+            
+            try {
+                const response = await fetch('/open_agent');
+                const data = await response.json();
+                
+                if (data.status === 'success' && data.pid) {
+                    agentPid = data.pid;
+                    button.innerHTML = '<i class="fas fa-keyboard"></i> Agent Active';
+                    button.classList.add('active');
+                    button.disabled = false;
+                    showStatus("Agent script opened in new console window. Look for the new console window!");
+                } else {
+                    button.innerHTML = '<i class="fas fa-keyboard"></i> Call Agent';
+                    button.disabled = false;
+                    showStatus(data.message, true);
+                }
+            } catch (error) {
+                button.innerHTML = '<i class="fas fa-keyboard"></i> Call Agent';
+                button.disabled = false;
+                console.error('Error opening agent script:', error);
+                showStatus("Error opening agent script. See console for details.", true);
+            }
+        }
+        
+
+        
+        function initializeGestureButtons() {
+            // Find all train buttons in keyboard gestures section
+            const trainButtons = document.querySelectorAll('.gesture-btn.train');
+            trainButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const gestureName = this.getAttribute('data-gesture');
+                    if (gestureName) {
+                        startTrainingForGesture(gestureName);
+                    }
+                });
+            });
+            
+            // Find all map key buttons in keyboard gestures section
+            const mapKeyButtons = document.querySelectorAll('.gesture-btn.map-key');
+            mapKeyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const gestureName = this.getAttribute('data-gesture');
+                    if (gestureName) {
+                        openKeyMappingModal(gestureName);
+                    }
+                });
+            });
+        }
+        
+
+        
+        // Global variables for process IDs
+        let predictionPid = null;
+        let mouseControllerPid = null;
+        let agentPid = null;
+        let airControllerPid = null;
+        
+        // Load gestures when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGestures();
+            
+            // Add event listeners for buttons
+            document.getElementById('prediction-btn').addEventListener('click', startPrediction);
+            document.getElementById('mouse-btn').addEventListener('click', startMouseController);
+            document.getElementById('agentic-ai').addEventListener('click', openAgent);
+            document.getElementById('stop-all-btn').addEventListener('click', stopAllProcesses);
+        });
+
+        async function stopProcess(processType) {
+            // Visual feedback
+            let button;
+            try {
+                button = document.getElementById(`stop-${processType}-btn`);
+                if (button) {
+                    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Stopping...';
+                    button.disabled = true;
+                }
+            } catch (buttonError) {
+                console.warn('Button not found for process type:', processType);
+            }
+            
+            try {
+                // Find the process ID for this type
+                let pid = null;
+                switch (processType) {
+                    case 'prediction':
+                        pid = predictionPid;
+                        predictionPid = null;
+                        break;
+                    case 'mouse':
+                        pid = mouseControllerPid;
+                        mouseControllerPid = null;
+                        break;
+                    case 'agent':
+                        pid = agentPid;
+                        agentPid = null;
+                        break;
+                    case 'air_controller':
+                        pid = airControllerPid;
+                        airControllerPid = null;
+                        break;
+                }
+                
+                if (!pid) {
+                    console.log(`No ${processType} process running or PID is null.`);
+                    showStatus(`No ${processType} process running.`);
+                    if (button) button.innerHTML = '<i class="fas fa-stop"></i> Stop';
+                    return;
+                }
+                
+                console.log(`Stopping ${processType} process with PID: ${pid}`);
+                
+                // Send stop request
+                const response = await fetch('/stop_process', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        pid: pid,
+                        type: processType
+                    })
+                });
+                
+                const data = await response.json();
+                if (data.status === 'success') {
+                    console.log(`Successfully stopped ${processType} process:`, data);
+                    showStatus(`${processType.charAt(0).toUpperCase() + processType.slice(1)} process stopped.`);
+                } else {
+                    console.error(`Backend error stopping ${processType} process:`, data);
+                    showStatus(`Error stopping ${processType} process: ${data.message}`, true);
+                }
+            } catch (error) {
+                console.error(`Error in stopProcess(${processType}):`, error);
+                showStatus(`Error stopping ${processType} process. See console for details.`, true);
+            } finally {
+                // Reset button
+                try {
+                    if (button) {
+                        button.innerHTML = '<i class="fas fa-stop"></i> Stop';
+                        button.disabled = true; // Keep disabled as process is stopped
+                    }
+                } catch (e) {
+                    console.warn('Error resetting button:', e);
+                }
+            }
+        }
+        
+        async function stopAllProcesses() {
+            const button = document.querySelector('.stop-all-button');
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Stopping...';
+            button.disabled = true;
+            showStatus("Stopping all processes...");
+            
+            try {
+                // Stop all processes
+                if (predictionPid) await stopProcess('prediction');
+                if (mouseControllerPid) await stopProcess('mouse');
+                if (agentPid) await stopProcess('agent');
+                if (airControllerPid) await stopProcess('air_controller');
+                
+                // Reset process IDs as a safety measure
+                predictionPid = null;
+                mouseControllerPid = null;
+                agentPid = null;
+                airControllerPid = null;
+                
+                // Disable all stop buttons
+                const stopButtons = document.querySelectorAll('.stop-button');
+                stopButtons.forEach(btn => {
+                    btn.disabled = true;
+                });
+                
+                showStatus('All processes stopped successfully');
+            } catch (error) {
+                console.error('Error stopping processes:', error);
+                showStatus('Error stopping processes', true);
+            } finally {
+                button.innerHTML = '<i class="fas fa-stop-circle"></i> Stop All Processes';
+                button.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html> 
